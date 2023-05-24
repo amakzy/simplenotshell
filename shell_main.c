@@ -60,4 +60,3 @@ int main(int argc __attribute__((unused)), char **argv)
 	free_resources();
 	return status;
 }
-
