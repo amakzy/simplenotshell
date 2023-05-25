@@ -11,7 +11,7 @@
 #include <errno.h>
 #include <dirent.h>
 #include <signal.h>
-
+#include <stddef.h>
 
 /*constants*/
 #define EXTERNAL_COMMAND 1
@@ -49,10 +49,10 @@ void _strcpy(char *, char *);
 
 /*helpers2*/
 int _strcmp(char *, char *);
-char *my_strcat(char *, char *);
-int my_strspn(char *, char *);
-int my_strcspn(char *, char *);
-char *my_strchr(char *, char);
+char *_strcat(char *, char *);
+size_t _strspn(char *str1, char *str2);
+size_t _strcspn(char *str1, char *str2);
+char *_strchr(char *s, int c);
 
 /*helpers3*/
 char *_strtok_r(char *, char *, char **);
@@ -77,5 +77,3 @@ extern void non_interactive(void);
 extern void initializer(char **current_command, int type_command);
 
 #endif /*SHELL_H*/
-
-

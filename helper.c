@@ -6,7 +6,7 @@
  *    * @delim: delimiter to be used, needs to be one character string
  *     *
  *      * Return: array of tokens
- *       */
+ */
 char **tokenizer(char *input_string, char *delim)
 {
 	int num_delim = 0;
@@ -23,7 +23,7 @@ char **tokenizer(char *input_string, char *delim)
 	av = val;
 	av[num_delim] = NULL;
 
-	return av;
+	return (av);
 }
 
 /**
@@ -31,7 +31,7 @@ char **tokenizer(char *input_string, char *delim)
  *   * @string: Array of characters
  *    * @stream: Output streams to console
  *     * Return: Always 0
- *      */
+ */
 
 void print(char *string, int stream)
 {
@@ -44,7 +44,7 @@ void print(char *string, int stream)
  *   * @str: string to be used
  *    *
  *     * Return: void
- *      */
+ */
 void remove_newline(char *str)
 {
 	while (*str)
@@ -64,7 +64,7 @@ void remove_newline(char *str)
  *    * @dest: destination to copy to
  *     *
  *      * Return: void
- *       */
+ */
 void _strcpy(char *source, char *dest)
 {
 	while ((*dest++ = *source++))
@@ -76,7 +76,7 @@ void _strcpy(char *source, char *dest)
  *   * @string: string to be counted
  *    *
  *     * Return: length of the string
- *      */
+ */
 int _strlen(char *string)
 {
 	int len = 0;
@@ -85,6 +85,6 @@ int _strlen(char *string)
 		while (*string++)
 			len++;
 
-	return len;
+	return (len);
 }
 

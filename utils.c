@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- *
+ * hash_command - Sets the hash table data
  * Description:
  * the extended functions for main.c
  */
@@ -12,7 +12,7 @@ static const struct
 	char *command_name;
 	void (*func)(char **command);
 }
-internal_commands[] ={
+internal_commands[] = {
 	{"env", env},
 	{"exit", quit},
 	{NULL, NULL}
@@ -23,20 +23,22 @@ static unsigned int hash_command(const char *command)
 {
 	unsigned int hash = 5381;
 	int c;
+
 	while ((c = *command++))
 		hash = ((hash << 5) + hash) + c;
 	return (hash);
 }
 
-/** parse_command - determines the type of the command
+/**
+ * parse_command - Determines the type of the command
  * @command: command to be parsed
  *
  * Return: constant representing the type of the command
  * Description -
- * 		 EXTERNAL_COMMAND (1) represents commands like /bin/ls
- *		 INTERNAL_COMMAND (2) represents commands like exit, env
- *		 PATH_COMMAND (3) represents commands found in the PATH like ls
- *		 INVALID_COMMAND (-1) represents invalid commands
+ *		EXTERNAL_COMMAND (1) represents commands like /bin/ls
+ *		INTERNAL_COMMAND (2) represents commands like exit, env
+ *		PATH_COMMAND (3) represents commands found in the PATH like ls
+ *		INVALID_COMMAND (-1) represents invalid commands
  */
 int parse_command(char *command)
 {
