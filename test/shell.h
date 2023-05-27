@@ -119,8 +119,12 @@ int is_name(dragon *inf, char *buffer, size_t *k);
 
 /*history*/
 int make_history_list(dragon *inf, char *buffer, int linecount);
+int write_history(dragon *inf);
+int read_history(dragon *inf);
+int renumber_history(dragon *inf);
 void add_node_end(list_t **head, char *str, int num);
 void delete_node_at_index(list_t **head, int index);
+char *get_history_file(dragon *inf);
 
 /*main*/
 extern void non_interactive(void);

@@ -9,15 +9,18 @@
  */
 char *get_history_file(dragon *inf)
 {
-	char *buffer, *dir;
+	char *buffer;
 	char *home = getenv("HOME");
-	size_t dir_len = strlen(home);
+	size_t dir_len;
 
     
 	if (!home)
 		return NULL;
-	size_t buf_size = dir_len + strlen(HIST_FILE) + 2;
-	buffer = malloc(sizeof(char) * buf_size);
+
+	dir_len = strlen(home);
+	size_t READ_BUFFER_SIZE = dir_len + strlen(HIST_FILE) + 2;
+
+	buffer = malloc(sizeof(char) * READ_BUFFER_SIZE);
 	if (!buffer)
 		return NULL;
 
@@ -40,13 +43,14 @@ int write_history(dragon *inf)
     if (!filename)
         return -1;
 
-    int fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+     list_t *node;
+
+    fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     free(filename);
     if (fd == -1)
         return -1;
 
-    list_t *node;
-    for (node = inf->history; node; node = node->next)
+        for (node = inf->history; node; node = node->next)
     {
         write(fd, node->str, strlen(node->str));
         write(fd, "\n", 1);
@@ -65,15 +69,17 @@ int write_history(dragon *inf)
 int read_history(dragon *inf)
 {
     char *filename = get_history_file(inf);
+    int fd;
+    struct stat st;
+
     if (!filename)
         return 0;
-
-    int fd = open(filename, O_RDONLY);
+    
+    fd = open(filename, O_RDONLY);
     free(filename);
     if (fd == -1)
         return 0;
 
-    struct stat st;
     if (fstat(fd, &st) == -1)
     {
         close(fd);
@@ -105,8 +111,9 @@ int read_history(dragon *inf)
     buffer[fsize] = '\0';
     int linecount = 0;
     int last = 0;
+    int i;
 
-    for (int i = 0; i < fsize; i++)
+    for (i = 0; i < fsize; i++)
     {
         if (buffer[i] == '\n')
         {
