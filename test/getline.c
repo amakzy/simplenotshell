@@ -9,7 +9,7 @@
  * Return: bytes read
  */
 
-ssize_t input_buffer(info_t *inf, char *buffer, size_t *len)
+ssize_t input_buffer(dragon *inf, char *buffer, size_t *len)
 {
 	ssize_t z = 0;
 	size_t len_p = 0;
@@ -17,7 +17,7 @@ ssize_t input_buffer(info_t *inf, char *buffer, size_t *len)
 	switch (*len)
 	{
 		case 0:
-			free(*buffer);
+			free(buffer);
 			buffer = NULL;
 			signal(SIGINT, ccblocker);
 #if USE_GETLINE
@@ -34,7 +34,7 @@ ssize_t input_buffer(info_t *inf, char *buffer, size_t *len)
 					z--;
 				}
 				inf->linecount_flag = 1;
-				rmv_comment(buffer);
+				remove_comment(buffer);
 				make_history_list(inf, buffer, inf->histcount++);
 
 				if (strchr(buffer, ';'))
@@ -46,8 +46,8 @@ ssize_t input_buffer(info_t *inf, char *buffer, size_t *len)
 			break;
 		default:
 			break;
-			return (z);
 	}
+	return (z);
 }
 
 /**
@@ -56,15 +56,16 @@ ssize_t input_buffer(info_t *inf, char *buffer, size_t *len)
  *
  * Return: bytes read
  */
-ssize_t line_input(info_t *inf)
+ssize_t line_input(dragon *inf)
 {
 	static char buffer[BUFFER_SIZE];
-	static size_t j, len;
-	char **buf_p = &(inf->arg), *p;
+	static size_t j, k, len;
+	char **buf_p = &(inf->arg);
 	ssize_t z = 0;
+	char *p = NULL;
 
-	_putchar(BUF_FLUSH);
-	z = input_buffer(inf, &buffer, &len);
+	putchar(BUFFER_FLUSH);
+	z = input_buffer(inf, buffer, &len);
 
 	if (z == -1)
 		return (-1);
@@ -72,7 +73,6 @@ ssize_t line_input(info_t *inf)
 	if (len)
 	{
 		size_t k = j;
-		char *p = buffer + j;
 
 		check_name(inf, buffer, &k, j, len);
 		while (k < len && !is_name(inf, buffer, &k))
@@ -105,9 +105,9 @@ void ccblocker(__attribute__((unused))int snom)
 	switch (snom)
 	{
 		case SIGINT:
-			_puts("\n");
-			_puts("$ ");
-			_putchar(BUF_FLUSH);
+			puts("\n");
+			puts("$ ");
+			putchar(BUFFER_FLUSH);
 			break;
 		default:
 			break;
